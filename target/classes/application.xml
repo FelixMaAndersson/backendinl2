@@ -10,4 +10,13 @@
     <bean id="customerManagement"
           class="se.yrgo.services.customers.CustomerManagementMockImpl" />
 
+    <bean id="diaryManagement"
+          class="se.yrgo.services.diary.DiaryManagementServiceMockImpl" />
+
+    <bean id="callHandling"
+          class="se.yrgo.services.calls.CallHandlingServiceImpl">
+        <property name="customerService" ref="customerManagement" />
+        <property name="diaryService" ref="diaryManagement" />
+    </bean>
+
 </beans>
