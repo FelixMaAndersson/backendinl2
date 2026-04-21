@@ -8,8 +8,9 @@
 	<!-- add your bean definitions here! -->
 
     <bean id="dataSource"
-          class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
-        <property name="driverClass" value="org.hsqldb.jdbcDriver"/>
+          class="org.apache.commons.dbcp2.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
         <property name="url" value="jdbc:hsqldb:file:database.dat;shutdown=true"/>
         <property name="username" value="sa"/>
         <property name="password" value=""/>
@@ -30,9 +31,6 @@
           class="se.yrgo.services.customers.CustomerManagementServiceProductionImpl">
         <property name="customerDao" ref="customerDao" />
     </bean>
-
-    <bean id="customerManagement"
-          class="se.yrgo.services.customers.CustomerManagementMockImpl" />
 
     <bean id="diaryManagement"
           class="se.yrgo.services.diary.DiaryManagementServiceMockImpl" />
