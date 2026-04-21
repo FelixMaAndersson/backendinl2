@@ -1,5 +1,6 @@
 package se.yrgo.services.customers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,51 +20,58 @@ public class CustomerManagementMockImpl implements CustomerManagementService {
 
 	@Override
 	public void newCustomer(Customer newCustomer) {
-
+        customerMap.put(newCustomer.getCustomerId(), newCustomer);
 	}
 
 	@Override
 	public void updateCustomer(Customer changedCustomer) {
-
-
+        customerMap.put(changedCustomer.getCustomerId(), changedCustomer);
 	}
 
 	@Override
 	public void deleteCustomer(Customer oldCustomer) {
-		// TODO Auto-generated method stub
+        customerMap.remove(oldCustomer.getCustomerId());
 
 	}
 
 	@Override
 	public Customer findCustomerById(String customerId) throws CustomerNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		Customer foundCustomer = customerMap.get(customerId);
+
+        if (foundCustomer == null) {
+            throw new CustomerNotFoundException();
+        }
+
+		return foundCustomer;
 	}
 
 	@Override
 	public List<Customer> findCustomersByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+        List<Customer> matchingCustomers = new ArrayList<Customer>();
+
+        for (Customer customer : customerMap.values()) {
+            if (customer.getCompanyName().equals(name)) {
+                matchingCustomers.add(customer);
+            }
+        }
+
+        return matchingCustomers;
 	}
 
 	@Override
 	public List<Customer> getAllCustomers() {
-		// TODO Auto-generated method stub
-		return null;
+        return new ArrayList<Customer>(customerMap.values());
 	}
 
 	@Override
 	public Customer getFullCustomerDetail(String customerId) throws CustomerNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+        return findCustomerById(customerId);
 	}
 
 	@Override
 	public void recordCall(String customerId, Call callDetails) throws CustomerNotFoundException {
-		//First find the customer
-
-		//Call the addCall on the customer
-
+        Customer foundCustomer = findCustomerById(customerId);
+        foundCustomer.addCall(callDetails);
 	}
 
 }
