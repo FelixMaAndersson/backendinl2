@@ -21,20 +21,20 @@ public class CustomerManagementServiceProductionImpl implements CustomerManageme
     }
 
     @Override
-    public void updateCustomer(Customer changedCustomer) {
+    public void updateCustomer(Customer changedCustomer) throws CustomerNotFoundException {
         try {
             customerDao.update(changedCustomer);
         } catch (RecordNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new CustomerNotFoundException();
         }
     }
 
     @Override
-    public void deleteCustomer(Customer oldCustomer) {
+    public void deleteCustomer(Customer oldCustomer) throws CustomerNotFoundException {
         try {
             customerDao.delete(oldCustomer);
         } catch (RecordNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new CustomerNotFoundException();
         }
     }
 

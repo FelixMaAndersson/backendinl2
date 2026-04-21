@@ -24,15 +24,26 @@ public class CustomerManagementMockImpl implements CustomerManagementService {
 	}
 
 	@Override
-	public void updateCustomer(Customer changedCustomer) {
-        customerMap.put(changedCustomer.getCustomerId(), changedCustomer);
+	public void updateCustomer(Customer changedCustomer) throws CustomerNotFoundException {
+        String customerId = changedCustomer.getCustomerId();
+
+        if (!customerMap.containsKey(customerId)) {
+            throw new CustomerNotFoundException();
+        }
+
+        customerMap.put(customerId, changedCustomer);
 	}
 
 	@Override
-	public void deleteCustomer(Customer oldCustomer) {
-        customerMap.remove(oldCustomer.getCustomerId());
+    public void deleteCustomer(Customer oldCustomer) throws CustomerNotFoundException {
+        String customerId = oldCustomer.getCustomerId();
 
-	}
+        if (!customerMap.containsKey(customerId)) {
+            throw new CustomerNotFoundException();
+        }
+
+        customerMap.remove(customerId);
+    }
 
 	@Override
 	public Customer findCustomerById(String customerId) throws CustomerNotFoundException {
