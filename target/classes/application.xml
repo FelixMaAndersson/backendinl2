@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
-            "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+           http://www.springframework.org/schema/context
+           https://www.springframework.org/schema/context/spring-context.xsd">
 
-<beans>
 
-	<!-- add your bean definitions here! -->
+    <!-- add your bean definitions here! -->
 
     <bean id="dataSource"
           class="org.apache.commons.dbcp2.BasicDataSource"
@@ -14,6 +25,12 @@
         <property name="url" value="jdbc:hsqldb:file:database.dat;shutdown=true"/>
         <property name="username" value="sa"/>
         <property name="password" value=""/>
+    </bean>
+
+    <!-- Transaction Manager -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
     </bean>
 
     <bean id="jdbcTemplate"
@@ -29,16 +46,20 @@
 
     <bean id="customerManagementService"
           class="se.yrgo.services.customers.CustomerManagementServiceProductionImpl">
-        <property name="customerDao" ref="customerDao" />
+        <property name="customerDao" ref="customerDao"/>
     </bean>
 
     <bean id="diaryManagement"
-          class="se.yrgo.services.diary.DiaryManagementServiceMockImpl" />
+          class="se.yrgo.services.diary.DiaryManagementServiceMockImpl"/>
 
     <bean id="callHandling"
           class="se.yrgo.services.calls.CallHandlingServiceImpl">
-        <property name="customerService" ref="customerManagementService" />
-        <property name="diaryService" ref="diaryManagement" />
+        <property name="customerService" ref="customerManagementService"/>
+        <property name="diaryService" ref="diaryManagement"/>
     </bean>
+
+    <context:component-scan base-package="se.yrgo"/>
+    <aop:aspectj-autoproxy/>
+    <tx:annotation-driven/>
 
 </beans>

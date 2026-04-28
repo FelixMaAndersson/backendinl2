@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.transaction.annotation.Transactional;
 import se.yrgo.domain.Action;
 
 public class DiaryManagementServiceMockImpl implements DiaryManagementService {
@@ -12,6 +13,7 @@ public class DiaryManagementServiceMockImpl implements DiaryManagementService {
 	private Set<Action>allActions= new HashSet<Action>();
 
 	@Override
+    @Transactional
 	public void recordAction(Action action) {
         allActions.add(action);
 	}
@@ -20,6 +22,7 @@ public class DiaryManagementServiceMockImpl implements DiaryManagementService {
 	//Create a list<Action>
 	//In the for each loop going through the list use this condition: "if(action.getOwningUser().equals(requiredUser) && !action.isComplete())" to add a new action to the list.
     @Override
+    @Transactional
 	public List<Action> getAllIncompleteActions(String requiredUser) {
         List<Action> incompleteActions = new ArrayList<Action>();
 
