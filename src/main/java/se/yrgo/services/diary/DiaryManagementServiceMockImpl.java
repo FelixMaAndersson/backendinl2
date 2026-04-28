@@ -5,9 +5,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.yrgo.domain.Action;
 
+@Service
 public class DiaryManagementServiceMockImpl implements DiaryManagementService {
 	
 	private Set<Action>allActions= new HashSet<Action>();

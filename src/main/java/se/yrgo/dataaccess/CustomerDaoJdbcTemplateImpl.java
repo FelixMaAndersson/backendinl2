@@ -5,13 +5,17 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import org.springframework.stereotype.Repository;
 import se.yrgo.domain.Call;
 import se.yrgo.domain.Customer;
 
+@Repository
 public class CustomerDaoJdbcTemplateImpl implements CustomerDao {
 
     private static final String INSERT_CUSTOMER_SQL =
@@ -38,11 +42,11 @@ public class CustomerDaoJdbcTemplateImpl implements CustomerDao {
     private static final String GET_CALLS_FOR_CUSTOMER_SQL =
             "SELECT TIME_AND_DATE, NOTES FROM CUSTOMER_CALL WHERE CUSTOMER_ID=?";
 
+    @Autowired
     private JdbcTemplate template;
 
-    public CustomerDaoJdbcTemplateImpl(JdbcTemplate template){
-    	this.template = template;
-    }
+
+
 
     @Override
     public void create(Customer customer) {
@@ -152,6 +156,7 @@ public class CustomerDaoJdbcTemplateImpl implements CustomerDao {
         }
     }
 
+    @PostConstruct
     public void createTables() {
         try {
             template.update("""
