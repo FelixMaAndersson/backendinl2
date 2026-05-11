@@ -44,6 +44,7 @@ public class CustomerManagementServiceProductionImpl implements CustomerManageme
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Customer findCustomerById(String customerId) throws CustomerNotFoundException {
         try {
             return customerDao.getById(customerId);
@@ -53,16 +54,19 @@ public class CustomerManagementServiceProductionImpl implements CustomerManageme
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Customer> findCustomersByName(String name) {
         return customerDao.getByName(name);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Customer> getAllCustomers() {
         return customerDao.getAllCustomers();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Customer getFullCustomerDetail(String customerId) throws CustomerNotFoundException {
         try {
             return customerDao.getFullCustomerDetail(customerId);
